@@ -16,3 +16,23 @@ An analytics engineering project modeling Airbnb listings, hosts, and reviews on
 Snowflake (cloud data warehouse) · dbt (transformation, testing, documentation) · Airbnb listings/hosts/reviews data
 
 ## Project structure
+models/
+├── src/ # staging models, 1:1 with raw sources
+├── dim/ # dimension tables
+├── fct/ # incremental fact table
+└── mart/ # analysis-ready marts
+snapshots/ # SCD Type 2 history
+seeds/ # static reference data (full moon dates)
+
+
+## Running it
+
+1. `pip install dbt-snowflake`
+2. Configure `~/.dbt/profiles.yml` with your Snowflake connection ([dbt Snowflake setup docs](https://docs.getdbt.com/docs/core/connect-data-platform/snowflake-setup))
+3. `dbt snapshot` — build SCD2 history
+4. `dbt run` — build staging → dimensions → facts → marts
+5. `dbt test` — run data quality checks
+
+## Notes
+
+Built as a hands-on project to learn dimensional modeling, incremental models, and SCD Type 2 change tracking on a real cloud data warehouse.
